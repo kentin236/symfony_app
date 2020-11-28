@@ -1,0 +1,69 @@
+name: app
+type: php:8.0
+
+build:
+    flavor: 'none'
+
+disk: 128
+
+runetime:
+    extension:
+        - apcu
+        - mbstring
+        - pdo_pgsql
+
+relationships:
+    database: "mydatabase:postgresql"
+    elasticsearch: "mysearch:elasticsearch"
+
+mounts:
+    '/var': { source: local, source_path: var }
+    '/public/upload': { source: local, source_path: uploads }
+
+web:
+    locations:
+        '/':
+            root: 'public'
+            passthru: '/index.php'
+            index:
+                - index.php
+            expires: -1
+            scripts: true
+            allow: true
+
+        '/upload':
+            root: 'public/upload'
+            scripts: false
+            allow: true
+
+    upstream:
+        socket_family: tcp
+        protocol: http
+
+    commands:
+        start: 
+
+hooks:
+    build: |
+        set -x -e
+
+        curl -s https://get.symfony.com/cloud/configurator | (>&2 bash)
+        (>&2 symfony-build)
+    deploy: |
+        set -x -e
+
+        (>&2 symfony-deploy)
+
+
+----
+
+    runetime:
+        sizing_ints;
+
+    variables:
+        php:
+            #opcache.preload: /app/config/preload.php
+            opcache.jit_buffer_size: 100M
+
+    relationships:
+         database: "database:postgresql"
