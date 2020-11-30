@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
+ * @ORM\Table(name="dummy_entity")
  * @ORM\Entity(repositoryClass=DummyEntityRepository::class)
  * @Serializer\ExclusionPolicy("ALL")
  */
@@ -73,6 +74,11 @@ class DummyEntity
      * @Serializer\Expose()
      */
     private $myDatetime;
+
+    public function __construct()
+    {
+        $this->setMyDatetime(new \DateTime());
+    }
 
     public function getId(): ?int
     {

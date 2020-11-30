@@ -98,9 +98,7 @@ class APIController extends AbstractController
 	 */
 	public function delete(string $id): JsonResponse
 	{
-		return $this->json([
-			'id' => $id
-		], Response::HTTP_OK);
+		return $this->json(['id' => $id], Response::HTTP_OK);
 	}
 
     /**
@@ -108,9 +106,20 @@ class APIController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-	public function postFile(Request $request)
+	public function postFile(Request $request): JsonResponse
 	{
 		$file = $request->files->get('file', null);
-		return $this->json([], Response::HTTP_OK);
+		return $this->json($file, Response::HTTP_OK);
 	}
+
+    /**
+     * @Route(path="/api/test/{direction<up|down>}", name="api_test", methods={"GET"})
+     * @param $direction
+     * @return JsonResponse
+     */
+	public function test($direction): JsonResponse
+    {
+        // n'accepte que "up" et "down" pour la valeur de 'direction'
+        return $this->json($direction, Response::HTTP_OK);
+    }
 }

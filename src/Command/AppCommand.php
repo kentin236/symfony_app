@@ -32,7 +32,7 @@ class AppCommand extends Command
         }
 
         if ($input->getOption('option1')) {
-            // ...
+            //
         }
 
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');

@@ -55,7 +55,8 @@ class AppController extends AbstractController
 	 */
     public function phpInfo(): void
     {
-    	dd(phpinfo());
+        phpinfo();
+        die;
     }
 	
 	/**

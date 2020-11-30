@@ -6,6 +6,7 @@ use App\Repository\FileEntityRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(name="file_entity")
  * @ORM\Entity(repositoryClass=FileEntityRepository::class)
  */
 class FileEntity

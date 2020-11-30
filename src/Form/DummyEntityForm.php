@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -37,12 +38,21 @@ class DummyEntityForm extends AbstractType
             ->add('myJson')
             ->add('myObject', EntityType::class)
             ->add('myDatetime', DateTimeType::class)
-            ->add('not_in_entity', PasswordType::class, [
-                'label' => 'password confirm',
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'le mot de passe et la confirmation doivent etre identique',
+                'label' => 'Votre mot de passe',
+                'required' => true,
+                'first_options' => [
+                    'label' => 'mot de passe',
+                    'attr' => [
+                        'placeholder' => 'Saisissez votre mot de passe'
+                    ],
+                ],
+                'second_options' => [
+                    'label' => 'mot de passe confirm'
+                ],
                 'mapped' => false,
-                'attr' => [
-                    'placeholder' => 'confirm password'
-                ]
             ])
             ->add('submit', SubmitType::class, ['label' => "submit"])
         ;
